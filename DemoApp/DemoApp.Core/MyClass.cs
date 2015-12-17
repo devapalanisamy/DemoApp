@@ -7,6 +7,8 @@ namespace DemoApp.Core
 		public MyClass ()
 		{
 		}
+
+
 	}
 }
 

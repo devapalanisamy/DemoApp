@@ -1,6 +1,8 @@
 ﻿using System;
 
 using UIKit;
+using DemoApp.Core;
+using System.Collections.Generic;
 
 namespace DemoApp.iOS
 {
@@ -10,16 +12,48 @@ namespace DemoApp.iOS
 		{
 		}
 
-		public override void ViewDidLoad ()
+		public async override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			// Perform any additional setup after loading the view, typically from a nib.
+
+			//var restservice = new RestService ();
+			//var Result = await restservice.RefreshDataAsync ();
+
+
+
+			//QualificationTable.Delegate = new QualificationDelegate ();
+			QualificationTable.DataSource = new QualificationDataSource ();
 		}
 
-		public override void DidReceiveMemoryWarning ()
+		public class QualificationDataSource: UITableViewDataSource
 		{
-			base.DidReceiveMemoryWarning ();
-			// Release any cached data, images, etc that aren't in use.
+			public List<Qualification> Items;
+			public QualificationDataSource(List<Qualification> items)
+			{
+				Items = items;
+			}
+
+			public QualificationDataSource()
+			{
+			}
+
+			string CellIdentifier = "TableCell";
+
+			public override UITableViewCell GetCell (UITableView tableView, Foundation.NSIndexPath indexPath)
+			{
+				UITableViewCell cell = tableView.DequeueReusableCell (CellIdentifier);
+
+				if (cell == null) {
+					cell = new UITableViewCell (UITableViewCellStyle.Default, CellIdentifier);
+				}
+				//cell.TextLabel.Text = Items [indexPath.Row].name;
+				cell.TextLabel.Text = indexPath.Row.ToString();
+				return cell;
+			}
+			public override nint RowsInSection (UITableView tableView, nint section)
+			{
+				return 10;
+			}
 		}
 	}
 }
