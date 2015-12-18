@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace DemoApp.Core
 {
@@ -10,9 +11,9 @@ namespace DemoApp.Core
 
 		public string id { get; set; }
 		public string name { get; set; }
-		public string country { get; set; }
+		//public string country { get; set; }
 		public string link { get; set; }
-		public Subject[] subjects { get; set; }
+		public List<Subject> subjects { get; set; }
 	}
 }
 
