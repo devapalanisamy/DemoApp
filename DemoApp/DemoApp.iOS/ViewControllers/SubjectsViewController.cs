@@ -50,7 +50,8 @@ namespace DemoApp.iOS
 					cell = new UITableViewCell (UITableViewCellStyle.Default, CellIdentifier);
 				}
 				cell.TextLabel.Text = Items [indexPath.Row].title;
-				//cell.TextLabel.Text = indexPath.Row.ToString();
+				if(Items [indexPath.Row].colour != null)
+					cell.TextLabel.TextColor = UIColorExtensions.FromHexString (Items [indexPath.Row].colour, 1.0f);
 				return cell;
 			}
 			public override nint RowsInSection (UITableView tableView, nint section)
