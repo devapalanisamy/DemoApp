@@ -18,10 +18,6 @@ namespace DemoApp.iOS
 		{
 			base.ViewDidLoad ();
 
-
-
-			QualificationTable.Delegate = new QualificationDelegate (Results);
-
 		}
 
 		public async override void ViewWillAppear (bool animated)
@@ -30,16 +26,18 @@ namespace DemoApp.iOS
 			var restservice = new RestService ();
 			Results = await restservice.RefreshDataAsync ();
 			QualificationTable.RowHeight = 50;
-			QualificationTable.Source = new QualificationDataSource (Results);
+			QualificationTable.Source = new QualificationDataSource (Results,this);
 			QualificationTable.ReloadData();
 		}
 
 		public class QualificationDataSource: UITableViewSource
 		{
 			public List<Qualification> Items;
-			public QualificationDataSource(List<Qualification> items)
+			public ViewController Viewcontroller1;
+			public QualificationDataSource(List<Qualification> items, ViewController viewcontroller)
 			{
 				Items = items;
+				Viewcontroller1 = viewcontroller;
 			}
 
 			public QualificationDataSource()
@@ -56,29 +54,20 @@ namespace DemoApp.iOS
 					cell = new UITableViewCell (UITableViewCellStyle.Default, CellIdentifier);
 				}
 				cell.TextLabel.Text = Items [indexPath.Row].name;
-				//cell.TextLabel.Text = indexPath.Row.ToString();
 				return cell;
 			}
 			public override nint RowsInSection (UITableView tableView, nint section)
 			{
 				return Items.Count;
 			}
-		}
 
-		public class QualificationDelegate: UITableViewDelegate
-		{
-			public QualificationDelegate(List<Qualification> items)
-			{
-				Items = items;
-			}
-
-			public List<Qualification> Items { get; set; }
 			public override void RowSelected (UITableView tableView, Foundation.NSIndexPath indexPath)
 			{
 				SubjectsViewController SubjectsViewController = new SubjectsViewController (){ Subjects = Items [indexPath.Row].subjects };
-
+				Viewcontroller1.NavigationController.PushViewController (SubjectsViewController, true);
 			}
 		}
+
 	}
 }
 

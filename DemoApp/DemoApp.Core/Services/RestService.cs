@@ -16,7 +16,6 @@ namespace DemoApp.Core
 			public RestService ()
 			{
 				client = new HttpClient ();
-				//client.MaxResponseContentBufferSize = 256000;
 			}
 
 			public async Task<List<Qualification>> RefreshDataAsync ()
@@ -30,7 +29,7 @@ namespace DemoApp.Core
 					var response = await client.GetAsync (uri);
 					if (response.IsSuccessStatusCode) {
 						var content = await response.Content.ReadAsStringAsync ();
-					Items = JsonConvert.DeserializeObject <List<Qualification>> (content);
+						Items = JsonConvert.DeserializeObject <List<Qualification>> (content);
 					}
 				} catch (Exception ex) {
 					Debug.WriteLine (@"ERROR {0}", ex.Message);
